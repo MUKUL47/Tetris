@@ -1,6 +1,7 @@
 import java.util.Collections;
 int Layout[][] = new int[20][29];
 boolean LayoutMark[][] = new boolean[20][29], nextPiece=false, start=true;
+int Color[][] = new int[20][29];
 ArrayList<Integer> pieceX = new ArrayList<Integer>();
 ArrayList<Integer> pieceY = new ArrayList<Integer>();
 int randItem;
@@ -10,12 +11,12 @@ void setup()
   size(400, 600);
   initLayout();
   layout();
-  frameRate(12);
+  frameRate(50);
   pickRandItem();
   
 }
 void draw() {
-  S = millis(); //S1=S;
+  S = millis(); S1=S;
   layout();
   newControls();
   if(nextPiece){resetPieces();}
@@ -27,21 +28,12 @@ void draw() {
 void layout() {
   int x=0, y=40, Y=0;
   for (int i=0; i<20; i++) {
-    if (Layout[i][Y]==1 && x==i*20 && y==Y*20+40 || !LayoutMark[i][Y]) { 
-      fill(50);
-    } else { 
-      fill(200);
-    }
+    if (Layout[i][Y]==1 && x==i*20 && y==Y*20+40 || !LayoutMark[i][Y] ) {  
+ fill(int(Color[i][Y]/1000000),(Color[i][Y]%1000000)/1000,Color[i][Y]%1000);    } else {       fill(200);    }
 
     rect(x, y, 20, 20);
     x+=20; 
-    if (i==19 && Y<29-1) { 
-      i=-1; 
-      x=0; 
-      y+=20; 
-      Y+=1;
-    }
-  }
+    if (i==19 && Y<29-1) {       i=-1;       x=0;       y+=20;       Y+=1;    }  }
 }
 
 void newControls() {
@@ -62,10 +54,10 @@ void newControls() {
       pieceX.set(i, pieceX.get(i)-1);
     }
   }
- if(Collections.max(pieceY)<26 && checkBelowPiece()){nextPiece=true;}
+ if(Collections.max(pieceY)<28 && checkBelowPiece()){nextPiece=true;}
 }
 
-   if(abs(S-S1)>=350 && Collections.max(pieceY)<27){ 
+   if(abs(S-S1)>=0 && Collections.max(pieceY)<27){ 
      temporaryClear();
   for (int i=0; i<pieceY.size(); i++) {  
       pieceY.set(i, pieceY.get(i)+1);
@@ -82,15 +74,20 @@ void newControls() {
   
 }
 void resetPieces(){
+int R = (int)random(100,200);
+int G = (int)random(100,200);
+int B = (int)random(100,200); 
+String finalColor=R+""+G+""+B;
+println(finalColor);
 for(int i=0;i<pieceY.size();i++){
 LayoutMark[pieceX.get(i)][pieceY.get(i)]=false;
-Layout[pieceX.get(i)][pieceY.get(i)]=(int)random(50,150);
+Layout[pieceX.get(i)][pieceY.get(i)]=1;
+Color[pieceX.get(i)][pieceY.get(i)]=int(finalColor);
 }
 pieceY.clear();
 pieceX.clear();
 pickRandItem();
 nextPiece=false;
-
 }
 
 void initLayout() {
@@ -98,6 +95,7 @@ void initLayout() {
     for (int j=0; j<29; j++) {
       Layout[i][j]=0;
       LayoutMark[i][j]=true;
+      Color[i][j]=0;
     }
   }
 }
@@ -139,9 +137,9 @@ void DestroyBottom() {
 }
 
 void pickRandItem() {
-  randItem =(int)random(1,6);
+  randItem =(int)random(0,6);
   if (randItem==1) {
-    int start = (int)random(0,16);    pieceX.add(start);   
+    int start = (int)random(0,18);    pieceX.add(start);   
     pieceY.add(0);    
     pieceX.add(start-1);    
     pieceY.add(1);     
@@ -151,7 +149,7 @@ void pickRandItem() {
     pieceY.add(1);         
   }
   else if(randItem==2) {
-    int start = (int)random(0,16);
+    int start = (int)random(0,18);
     pieceX.add(start);    
     pieceY.add(0);   
     pieceX.add(start+1);    
@@ -162,7 +160,7 @@ void pickRandItem() {
     pieceY.add(1);         
   }
   else if(randItem==3) {
-    int start = (int)random(0,14);
+    int start = (int)random(0,18);
     //1
     pieceX.add(start);    
     pieceY.add(0);    
@@ -174,7 +172,7 @@ void pickRandItem() {
     pieceY.add(1);         
   }
     else if(randItem==4) {
-    int start = (int)random(0,16);
+    int start = (int)random(0,18);
     pieceX.add(start);    
     pieceY.add(0);   
     pieceX.add(start);    
@@ -184,7 +182,7 @@ void pickRandItem() {
     pieceX.add(start+2);   
     pieceY.add(1);         
   }else{
-    int start = (int)random(0,14);
+    int start = (int)random(0,18);
     pieceX.add(start);    
     pieceY.add(0);   
     pieceX.add(start+1);    

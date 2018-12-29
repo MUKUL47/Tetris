@@ -1,6 +1,6 @@
 import java.util.Collections;
 int Layout[][] = new int[20][29];
-boolean LayoutMark[][] = new boolean[20][29], nextPiece=false, start=true;
+boolean LayoutMark[][] = new boolean[20][29], nextPiece=false, start=true, down=true ;
 int Color[][] = new int[20][29];
 ArrayList<Integer> pieceX = new ArrayList<Integer>();
 ArrayList<Integer> pieceY = new ArrayList<Integer>();
@@ -11,21 +11,21 @@ void setup()
   size(400, 600);
   initLayout();
   layout();
-  frameRate(50);
+  frameRate(20);
   pickRandItem();
-  
 }
 void draw() {
-  S = millis(); S1=S;
+  S = millis(); 
   layout();
   newControls();
   if(nextPiece){resetPieces();}
-  if(checkBottom()){DestroyBottom();}
-  for(int i=0;i<20;i++){if(!LayoutMark[i][1]){noLoop();}}
+  if(checkBottom()>0){DestroyBottom();}
+  for(int i=0;i<20;i++){if(!LayoutMark[i][2]){noLoop();}}
 }
 
 //Update every pixel
 void layout() {
+  
   int x=0, y=40, Y=0;
   for (int i=0; i<20; i++) {
     if (Layout[i][Y]==1 && x==i*20 && y==Y*20+40 || !LayoutMark[i][Y] ) {  
@@ -37,48 +37,41 @@ void layout() {
 }
 
 void newControls() {
-  if(keyPressed ){
   temporaryClear();
-  if (keyCode == DOWN && Collections.max(pieceY)<27) {
+  
+  if (keyPressed  && keyCode == DOWN && Collections.max(pieceY)<=28) {
     for (int i=0; i<pieceY.size(); i++) {  
       pieceY.set(i, pieceY.get(i)+1);      
     }
   }
-  else if (Collections.max(pieceX)<=18 && keyCode == RIGHT && !checkRightPiece() ) {
+  else if (keyPressed && Collections.max(pieceX)<=18 && keyCode == RIGHT && !checkRightPiece() ) {
     for (int i=0; i<pieceY.size(); i++) {  
       pieceX.set(i, pieceX.get(i)+1);
-    }
+    } 
   }
-  else if (Collections.min(pieceX)>0 && keyCode == LEFT && !checkLeftPiece()) {    
+  else if (keyPressed && Collections.min(pieceX)>0 && keyCode == LEFT && !checkLeftPiece()) {    
     for (int i=0; i<pieceY.size(); i++) {  
       pieceX.set(i, pieceX.get(i)-1);
     }
   }
- if(Collections.max(pieceY)<28 && checkBelowPiece()){nextPiece=true;}
-}
-
-   if(abs(S-S1)>=0 && Collections.max(pieceY)<27){ 
-     temporaryClear();
+   if(!( keyPressed  && keyCode == DOWN ) && abs(S-S1)>=300 && Collections.max(pieceY)<27){ 
+     
   for (int i=0; i<pieceY.size(); i++) {  
       pieceY.set(i, pieceY.get(i)+1);
     }
     S1=S;
  }
- if(checkBelowPiece()){nextPiece=true;}
- if(Collections.max(pieceY)==27){nextPiece=true;}
- 
+ temporaryClear();
     for (int i=0; i<pieceX.size(); i++) {
-      Layout[pieceX.get(i)][pieceY.get(i)]=1;
+      Layout[abs(pieceX.get(i))][pieceY.get(i)]=1;
     }
- 
-  
+ if(checkBelowPiece()){nextPiece=true;}
 }
 void resetPieces(){
-int R = (int)random(100,200);
-int G = (int)random(100,200);
-int B = (int)random(100,200); 
+int R = (int)random(100,250);
+int G = (int)random(100,250);
+int B = (int)random(100,250); 
 String finalColor=R+""+G+""+B;
-println(finalColor);
 for(int i=0;i<pieceY.size();i++){
 LayoutMark[pieceX.get(i)][pieceY.get(i)]=false;
 Layout[pieceX.get(i)][pieceY.get(i)]=1;
@@ -110,13 +103,15 @@ for (int i=0; i<20; i++) {
   }
 }
 
-boolean checkBottom() {
-  for (int j=0; j<20; j++) {
-    if (LayoutMark[j][27]) {
-      return false;
+int checkBottom() {
+  int c=0,j1=0;
+  for (int i=0; i<20; i++) {
+    for(int j=0;j<28;j++){
+    if (!LayoutMark[i][j]) {
+      c+=1;j1=j;
     }
-  }
-  return true;
+  } if(c==18){println(j1);return j1;} c=0; }
+  return -1;
 }
 
 void DestroyBottom() {  
@@ -182,7 +177,7 @@ void pickRandItem() {
     pieceX.add(start+2);   
     pieceY.add(1);         
   }else{
-    int start = (int)random(0,18);
+    int start = (int)random(0,17);
     pieceX.add(start);    
     pieceY.add(0);   
     pieceX.add(start+1);    
@@ -194,17 +189,12 @@ void pickRandItem() {
 }
 
 
-boolean checkBelowPiece(){
-for(int i=0;i<pieceX.size();i++){
-  pieceX.set(i,abs(pieceX.get(i)));
-  pieceY.set(i,abs(pieceY.get(i)));
-if(!LayoutMark[pieceX.get(i)][pieceY.get(i)+1]){return true;}
-}
-return false;
-}
+boolean checkBelowPiece(){ for(int i=0;i<pieceX.size();i++){ if(!LayoutMark[pieceX.get(i)][Collections.max(pieceY)+1] || Collections.max(pieceY)==27 ){ return true; }} return false; }
+
+
 boolean checkRightPiece(){
 for(int i=0;i<pieceX.size();i++){
-if(!LayoutMark[pieceX.get(i)+1][pieceY.get(i)]){return true;}
+if(!LayoutMark[pieceX.get(i)+1][Collections.max(pieceY)] || Collections.max(pieceX)==20 ){return true;}
 }
 return false;
 }

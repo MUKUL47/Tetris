@@ -133,18 +133,18 @@ void DestroyBottom() {
 
 void pickRandItem() {
   randItem =(int)random(0,6);
-  if (randItem==1) {
-    int start = (int)random(0,18);    pieceX.add(start);   
+  switch(randItem){
+  case 1 : int start = (int)random(0,18);   
+    pieceX.add(start);   
     pieceY.add(0);    
     pieceX.add(start-1);    
     pieceY.add(1);     
     pieceX.add(start);   
     pieceY.add(1);     
     pieceX.add(start+1);   
-    pieceY.add(1);         
-  }
-  else if(randItem==2) {
-    int start = (int)random(0,18);
+    pieceY.add(1);    
+    break;
+  case 2 : start = (int)random(0,18);
     pieceX.add(start);    
     pieceY.add(0);   
     pieceX.add(start+1);    
@@ -152,11 +152,9 @@ void pickRandItem() {
     pieceX.add(start);   
     pieceY.add(1);     
     pieceX.add(start+1);   
-    pieceY.add(1);         
-  }
-  else if(randItem==3) {
-    int start = (int)random(0,18);
-    //1
+    pieceY.add(1);
+    break;
+  case 3 : start = (int)random(0,18);
     pieceX.add(start);    
     pieceY.add(0);    
     pieceX.add(start+1);    
@@ -164,10 +162,9 @@ void pickRandItem() {
     pieceX.add(start+1);   
     pieceY.add(1);       
     pieceX.add(start+2);   
-    pieceY.add(1);         
-  }
-    else if(randItem==4) {
-    int start = (int)random(0,18);
+    pieceY.add(1);
+    break;
+  case 4 : start = (int)random(0,18);
     pieceX.add(start);    
     pieceY.add(0);   
     pieceX.add(start);    
@@ -175,9 +172,9 @@ void pickRandItem() {
     pieceX.add(start+1);   
     pieceY.add(1);      
     pieceX.add(start+2);   
-    pieceY.add(1);         
-  }else{
-    int start = (int)random(0,17);
+    pieceY.add(1);
+    break;
+  case 5 : start = (int)random(0,17);
     pieceX.add(start);    
     pieceY.add(0);   
     pieceX.add(start+1);    
@@ -185,7 +182,11 @@ void pickRandItem() {
     pieceX.add(start+2);   
     pieceY.add(0);      
     pieceX.add(start+3);   
-    pieceY.add(0);}
+    pieceY.add(0);
+    break;
+  
+  }
+
 }
 
 

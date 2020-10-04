@@ -34,8 +34,8 @@ class Block{
             case 4:
                 this.start        = random(2,X_BLOCK - 5);
                 this.xCoordinates = [this.start, this.start+1, 
-                                     this.start+2, this.start+3]   
-                this.yCoordinates = [0,0,0,0]
+                                     this.start+2, this.start+3, this.start+4, this.start+5, this.start+6, this.start+7, this.start+8, this.start+9]   
+                this.yCoordinates = [0,0,0,0,0,0,0,0,0,0]
                 this.centerX      = this.start+1
                 this.centerY      = 1
                 break   
@@ -46,6 +46,8 @@ class Block{
     deactivate()     { this.active = false }
     
     rotate(){
+        const clonedX = [...this.xCoordinates]
+        const clonedY = [...this.yCoordinates]
         for(var i = 0; i < this.xCoordinates.length; i++){
             var x1  = this.xCoordinates[i]-this.centerX;
             var y1  = this.yCoordinates[i]-this.centerY;
@@ -53,13 +55,29 @@ class Block{
             var y11 = x1
             x1      = x11+this.centerX;
             y1      = y11+this.centerY;
+            if(x1 < 0 || x1 > 19 || y1 < 0 || y1 > 29) {
+                this.xCoordinates = clonedX;
+                this.yCoordinates = clonedY;
+                return;
+            }
             this.xCoordinates[i] = x1
             this.yCoordinates[i] = y1
             }
     }
 
-    move(key){
+    move(key, cb){
+        if(!rendererC.timer) return
         const moveK = this.getCoord(key);
+        if(this.constrictMovement(key)) {
+            if(key === 'D'){
+                this.yCoordinates.forEach((v, i) => deactivatedBlocks[this.xCoordinates[i]+","+v] = true)
+                playGround.markPermanent(this.xCoordinates, this.yCoordinates)
+                console.log(deactivatedBlocks)
+                // rendererC.stop()
+                cb(true)
+            }
+            return
+        }
         this.xCoordinatesLast = [...this.xCoordinates];
         this.yCoordinatesLast = [...this.yCoordinates];
         if(key === 'T'){
@@ -77,9 +95,17 @@ class Block{
     }
 
     constrictMovement(key){
-        
+        if(key === 'T') return false
+        if(key === 'L' || key === 'R'){
+            const coord = this.getCoord(key);
+            const horizontalBlockActive = this.yCoordinates.find((v, i) => deactivatedBlocks[(this.xCoordinates[i] + coord.v)+","+v]);
+            return key === 'L' ? Math.min(...this.xCoordinates) < 1 || horizontalBlockActive: Math.max(...this.xCoordinates) >= 19 || horizontalBlockActive
+        }
+        const reachedBottom = Math.max(...this.yCoordinates) >= 29;
+        let deactivatedFound = this.yCoordinates.find((v, i) => deactivatedBlocks[this.xCoordinates[i]+","+(v+1)]);
+        return reachedBottom || deactivatedFound
     }    
-    
+
     getCoord(key){
         switch(key){
             case 'L' :  return { key : 'x', v : -1 }

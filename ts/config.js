@@ -2,13 +2,14 @@
 let playGround;
 let activeBlock;
 let deactivatedBlocks;
-let onKeyPressTime
+let rendererC;
+let newBlockTimer;
 //
 
 //--
 const PLAYGROUND_X = 400
 const PLAYGROUND_Y = 600
-const GLOBAL_TIMER = 700
+const GLOBAL_TIMER = 350
 const X_BLOCK = PLAYGROUND_X / 20
 const Y_BLOCK = PLAYGROUND_Y / 20
 //--

@@ -2,14 +2,26 @@ var tetrisCanvas = document.querySelector('#tetris');
 var tetrisConvasCtx = tetrisCanvas.getContext('2d');
 initInstance();
 const looper = () => {
-    playGround.onKeyDown(key => activeBlock.move(getArrow(key)))
-    activeBlock.move('D')
+    playGround.onKeyDown(key => blockMovement(getArrow(key)))
+    blockMovement('D')
+    playGround.checkRowBlock()
 }
-new Renderer(looper).draw()
+function blockMovement(key){
+    activeBlock.move(key, e => {
+        if(!newBlockTimer){
+            newBlockTimer = setTimeout(() => {
+                activeBlock = new Block(4)//random(1, 5));
+                newBlockTimer = null;
+            }, 100)
+        }
+    })
+}
+rendererC = new Renderer(looper)
+rendererC.draw()
 function initInstance(){
     playGround = new Playground(PLAYGROUND_X, PLAYGROUND_Y, tetrisCanvas);
-    activeBlock = new Block(random(1, 5))
-    deactivatedBlocks = new Array();
+    activeBlock = new Block(4)//random(1, 5))
+    deactivatedBlocks = {}
     playGround.renderPlayGround()
     playGround.render()
 }

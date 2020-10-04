@@ -11,5 +11,10 @@ class Renderer{
     stop(){
         if(!this.func || !this.timer ) return;
         clearInterval(this.timer);
+        this.timer = null;
+    }
+
+    start(){
+        this.timer = setInterval(this.func, GLOBAL_TIMER)
     }
 }

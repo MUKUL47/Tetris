@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>TETRIS</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    
+    <link rel="stylesheet" type="text/css" href="global.css">
 </head>
-<body style="background-color : black">
-    <script src='brain.js'></script>
-    <script src='grid.js'></script>
-    <script src='block.js'></script>
-    <script src='node.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+<body>
+    <div id="score">Score : 0</div>
+    <button id='restart' onclick="restart()">Restart</button>
+    <button id='restart' class="pause" style="margin-left: 5%;" onclick="stop()">Pause</button>
+    <canvas id='tetris'></canvas>
+    <canvas id='tetris-block' hidden></canvas>
 </body>
+    <script src="config.js"></script>
+    <script src="playground.js"></script>
+    <script src="renderer.js"></script>
+    <script src="block.js"></script>
+    <script src="brain.js"></script>
 </html>

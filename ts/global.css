@@ -1,8 +1,28 @@
 #tetris{
     background-color: #fff;
     border: 1px solid;
+    margin-top: 2%;
 }
 body{
     text-align: center;
     background-color: darkgray;
+}
+button{
+    position: absolute;
+    top: 12px;
+    font-weight: 700;
+    padding: 7px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: transparent;
+}
+#score{
+    font-size: 24px;
+}
+#tetris-block{
+    margin-left: 5%;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid;
+    margin-top: 2%;
 }

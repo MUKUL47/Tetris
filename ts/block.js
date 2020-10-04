@@ -5,7 +5,7 @@ class Block{
                 this.xCoordinatesLast = null;                        
                 this.yCoordinatesLast = null;
         switch(piece){
-            case 1:
+            case 1: //T
                 this.start        = random(3,X_BLOCK - 5);
                 this.xCoordinates = [this.start, this.start-1, 
                                      this.start, this.start+1]  
@@ -14,7 +14,7 @@ class Block{
                 this.centerY      = 1
                 break
 
-            case 2:
+            case 2://z block
                 this.start        = random(3,X_BLOCK - 5);
                 this.xCoordinates = [this.start, this.start-1, 
                                      this.start, this.start+1]   
@@ -22,7 +22,7 @@ class Block{
                 this.centerX      = this.start
                 this.centerY      = 1
                 break
-            case 3:
+            case 3://L block
                 this.start        = random(3,X_BLOCK - 5);
                 this.xCoordinates = [this.start, this.start, 
                                      this.start+1, this.start+2]   
@@ -31,14 +31,39 @@ class Block{
                 this.centerY      = 1
                 break
 
-            case 4:
+            case 4: // I block
                 this.start        = random(2,X_BLOCK - 5);
                 this.xCoordinates = [this.start, this.start+1, 
-                                     this.start+2, this.start+3, this.start+4, this.start+5, this.start+6, this.start+7, this.start+8, this.start+9]   
-                this.yCoordinates = [0,0,0,0,0,0,0,0,0,0]
+                                     this.start+2, this.start+3]   
+                this.yCoordinates = [0,0,0,0]
                 this.centerX      = this.start+1
                 this.centerY      = 1
                 break   
+
+            case 5:  //s
+                this.start        = random(3,X_BLOCK - 5);
+                this.xCoordinates = [this.start, this.start-1, 
+                                    this.start, this.start+1]   
+                this.yCoordinates = [1,1,0,0]
+                this.centerX      = this.start
+                this.centerY      = 1
+                break
+            case 6://J block
+                this.start        = random(3,X_BLOCK - 5);
+                this.xCoordinates = [this.start, this.start+2, 
+                                     this.start+1, this.start+2]   
+                this.yCoordinates = [1,1,1,0]
+                this.centerX      = this.start
+                this.centerY      = 1
+                break
+            case 7://O block
+                this.start        = random(3,X_BLOCK - 5);
+                this.xCoordinates = [this.start, this.start+1, 
+                                        this.start, this.start+1]   
+                this.yCoordinates = [1,1,0,0]
+                this.centerX      = this.start
+                this.centerY      = 1
+                break
         }
     }
     setPermanent()   { this.permanent = true  }

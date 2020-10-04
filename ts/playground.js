@@ -2,12 +2,6 @@ class Playground{
     canvas;
     canvasContext;
     canvasActiveListener = false;
-    //
-    x = 1
-    y = 0
-    x_ = null
-    y_ = null
-    //
     keyTimer = null;
     constructor(width, height, canvas){
         this.width = width;
@@ -87,14 +81,12 @@ class Playground{
                 actives.forEach(a => delete deactivatedBlocks[a])
                 this.resetNode(Array(X_BLOCK).fill(1).map((_, i) => i), Array(i).fill(i))
                 this.compactLooseNodes(i)
+                score();
             }
         }
     }
-
     compactLooseNodes(startHeight){
-        // rendererC.stop()
         for(let y = startHeight-1; y > 0; y--){
-            //resetNode
             this.resetNode(Array(X_BLOCK).fill(1).map((_, i) => i), Array(y).fill(y))
             let newX = [];
             let newY = [];
@@ -105,7 +97,6 @@ class Playground{
                     newY.push(y+1)
                     delete deactivatedBlocks[`${x},${y}`];
                 }
-                //deactivatedBlocks[]
             }
             if(newX.length > 0){
                 this.markPermanent(newX, newY)
